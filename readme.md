@@ -32,6 +32,10 @@ git clone https://github.com/SahilDanayak/Epub-Metadata-Editor.git
 ```bash
 pip install -r requirements.txt
 ```
+3. Run the GUI
+```bash
+python main.py
+```
 
 ## Screenshots
 
