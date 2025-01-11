@@ -66,7 +66,7 @@ class HomePage(tk.Tk):
 
     def open_epub(self):
         file_path = filedialog.askopenfilename(
-            initialdir=r"C:\Users\user\Downloads\Novels",
+            initialdir=r"C:\Users\sahil\Downloads\Novels",
             filetypes=[("EPUB files", "*.epub")]
         )
         if not file_path:
@@ -123,11 +123,11 @@ class HomePage(tk.Tk):
     def get_metadata_from_gui(self):
         metadata = {}
         
-        metadata['title'] = title_entry.get().strip() or "No Title"
-        metadata['author'] = author_entry.get().strip() or "Unknown Author"
-        metadata['description'] = description_text.get("1.0", tk.END).strip() or "No description available"
+        metadata['title'] = self.title_entry.get().strip() or "No Title"
+        metadata['author'] = self.author_entry.get().strip() or "Unknown Author"
+        metadata['description'] = self.description_text.get("1.0", tk.END).strip() or "No description available"
         metadata['cover'] = None
-        if hasattr(cover_label, 'image'):
+        if hasattr(self.cover_label, 'image'):
             metadata['cover'] = self.cover_label.image
             
         return metadata
