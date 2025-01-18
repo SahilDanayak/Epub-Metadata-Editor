@@ -17,6 +17,7 @@ async def getMetadata(query, maxResults):
     async with aiohttp.ClientSession() as session:
         tasks = []
         google_url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults={maxResults}"
+        print(google_url)
         tasks.append(fetch_metadata_via_google_api(google_url,maxResults, session=session))
         amazon_url = f"https://www.amazon.in/s?k={query}&i=stripbooks"
         tasks.append(fetch_metadata_via_amazon(amazon_url,maxResults/2, session=session))
@@ -30,8 +31,14 @@ def fetch_metadata(query,maxResults=10):
     Fetch metadata and images from Google Books and Amazon.
     """
     results = asyncio.run(getMetadata(query, maxResults))
-    google_books = results[0]
-    amazon_books = results[1] + results[2]
+    google_books = []
+    amazon_books = []
+    if type(results[0]) != Exception:
+        google_books += results[0]
+    if type(results[1]) != Exception:
+        amazon_books += results[1]
+    if type(results[2]) != Exception:
+        amazon_books += results[2]
     return google_books, amazon_books
 
 
@@ -84,7 +91,7 @@ async def fetch_metadata_via_amazon(url,maxResults=5, session=None):
                 if len(books)==maxResults:
                     break
     else:
-        raise Exception(f"Failed to fetch search results from Amazon. HTTP Status: {response.status_code}")
+        raise Exception(f"Failed to fetch search results from Amazon. HTTP Status: {response.status}")
             
     return books
 
